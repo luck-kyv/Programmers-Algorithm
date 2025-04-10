@@ -49,17 +49,18 @@ for i in range(8):
 print(cnt)
 
 # 4. 문자열 재정렬
-s = list(map(ord, input()))
-s.sort()
-
-result = ''
+data = input()
+result = []
 c_sum = 0
 
-for c in s:
-  if ord('0') <= c <= ord('9'):
-    c_sum += int(chr(c))
+for c in data:
+  if c.isalpha():
+    result.append(c)
   else:
-    result += chr(c)
+    c_sum += int(c)
 
-result += str(c_sum)
-print(result)
+result.sort()
+
+if c_sum != 0:
+  result.append(str(c_sum))
+print(''.join(result))
