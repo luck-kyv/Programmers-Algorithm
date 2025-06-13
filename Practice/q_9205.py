@@ -1,37 +1,30 @@
 import sys
 from collections import deque
-input = sys.stdin.readline
+inp = sys.stdin.readline
 
-n_case = int(input())
-test_cases = []
-for _ in range(n_case):
-    n_gs = int(input())
-    pos = [list(map(int, input().split())) for _ in range(n_gs + 2)]
-    test_cases.append({
-        "n_gs" : n_gs,
-        "pos": pos
-    })
+def cal_distance(a, b):
+  return abs(distance[a][0] - distance[b][0]) + abs(distance[a][1] - distance[b][1])
 
-#print(pos)
-def cal_dis(a, b):
-    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+for tc in range(int(inp())):
+  n = int(inp()) # 편의점 개수
+  distance = [list(map(int, inp().split())) for _ in range(n+2)] # 집, 편의점, 락 페스티벌 
+  # [[0,0], [1000, 0],[1000, 1000],[2000, 1000]]
+  visited = [False] * (n + 2)
 
-for t in test_cases:
-    n_gs = t["n_gs"]
-    pos = t["pos"]
+  q = deque()
+  q.append(0)
+  visited[0] = True
 
-    visited = [False] * (n_gs + 2)
-    q = deque([0])
-    visited[0] = True
+  while q:
+    now = q.popleft()
 
-    while q:
-        current = q.pop(0)
-        for idx in range(n_gs + 2):
-            if not visited[idx] and cal_dis(pos[current], pos[idx]) <= 1000:
-                visited[idx] = True
-                q.append(idx)
+    for i in range(n + 2):
+      if not visited[i]:
+        if cal_distance(now, i) <= 1000:
+          visited[i] = True
+          q.append(i)
 
-    if visited[-1]:
-        print("happy")
-    else:
-        print("sad")
+  if visited[-1]:
+    print("happy")
+  else:
+    print("sad")
